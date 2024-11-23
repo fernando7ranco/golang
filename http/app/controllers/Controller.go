@@ -2,13 +2,15 @@ package controllers
 
 import (
 	"net/http"
-	interfaces "servidorhttp/app/interfaces"
+	"servidorhttp/app/structs"
 )
 
-type Controller struct{}
+type Controller struct {
+	helperJson structs.HelperJson
+}
 
-func (c Controller) responseJson(response http.ResponseWriter, obj interfaces.IStructToJson) {
+func (r *Controller) responseJson(response http.ResponseWriter, obj interface{}) {
 	response.Header().Set("Content-Type", "application/json")
 	response.WriteHeader(http.StatusOK)
-	response.Write(obj.ToJson())
+	response.Write(r.helperJson.ParseJson(obj))
 }
